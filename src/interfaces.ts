@@ -1,8 +1,6 @@
-export interface Particle {}
-export interface ParticleOptions {
-	size?: RangeValue;
-	background?: string | string[];
-}
+import { Particle } from './particle';
+import { EaseLikeFunction, RangeValue } from './background-interfaces';
+
 export interface ConfigOptions {
 	movement?: 0.003; // Movements per ms
 	easing?: EaseLikeFunction;
@@ -10,17 +8,8 @@ export interface ConfigOptions {
 	nextFrameCaller?: (fn: () => Promise<void> | void) => void;
 }
 
-export type EaseLikeFunction = (n: number) => number;
-export interface RangeValue {
-	min?: number;
-	max?: number;
-}
-
 export type UpdateHook = (updatedProperties: Particle) => void | Promise<void>;
 export interface ParticleHooks {
 	update: UpdateHook;
 }
-export type ParticleCreator = (
-	properties: Particle,
-	hooks: ParticleHooks
-) => Promise<void> | void | (() => void) | Promise<() => void>;
+export type ParticleCreator = (particle: Particle) => Promise<void> | void | (() => void) | Promise<() => void>;

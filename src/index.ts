@@ -1,5 +1,3 @@
-import DecentralizedParticles from './core';
-
-export { DecentralizedParticles };
-
+export * from './core';
 export * from './interfaces';
+export * from './particle';

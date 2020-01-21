@@ -4,7 +4,7 @@
 	"endOfLine": "lf",
 	"htmlWhitespaceSensitivity": "css",
 	"insertPragma": false,
-	"printWidth": 100,
+	"printWidth": 140,
 	"proseWrap": "preserve",
 	"requirePragma": false,
 	"semi": true,
