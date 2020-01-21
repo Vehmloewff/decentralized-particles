@@ -1,0 +1,55 @@
+{
+	"name": "todo",
+	"version": "0.0.0",
+	"description": "TODO: Add description",
+	"main": "dist/build.cjs.js",
+	"module": "dist/build.esm.js",
+	"typings": "typings/index.d.ts",
+	"scripts": {
+		"build": "cross-env NODE_ENV=production rollup -c && tsc",
+		"test": "cross-env NODE_ENV=development rollup -c",
+		"lint": "prettier --write \"./**\"",
+		"lint:test": "prettier --check \"./**\"",
+		"preversion": "npm run test && npm run lint:test && npm run build",
+		"prepublishOnly": "npm run build",
+		"postversion": "git push && git push --tags && rm -rf build/temp && npm publish"
+	},
+	"keywords": [
+		"todo",
+		"todo",
+		"todo"
+	],
+	"author": {
+		"name": "Vehmloewff",
+		"url": "https://github.com/Vehmloewff"
+	},
+	"files": [
+		"dist",
+		"typings"
+	],
+	"license": "MIT",
+	"devDependencies": {
+		"acorn": "^7.1.0",
+		"cross-env": "^6.0.3",
+		"deepmerge": "^4.2.2",
+		"prettier": "^1.19.1",
+		"rollup": "^1.27.13",
+		"rollup-plugin-command": "^1.0.7",
+		"rollup-plugin-commonjs": "^10.1.0",
+		"rollup-plugin-glob-files": "^1.0.3",
+		"rollup-plugin-node-resolve": "^5.2.0",
+		"rollup-plugin-typescript": "^1.0.1",
+		"tslib": "^1.10.0",
+		"typescript": "^3.7.3",
+		"zip-tap": "^1.0.4",
+		"zip-tap-reporter": "^1.0.4"
+	},
+	"homepage": "https://github.com/Vehmloewff/todo",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Vehmloewff/todo"
+	},
+	"dependencies": {
+		"debug": "^4.1.1"
+	}
+}
