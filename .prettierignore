@@ -5,6 +5,7 @@ node_modules
 LICENSE
 /dist
 /typings
+/browser-test/build.js
 
 **/*.png
 **/*.ico
