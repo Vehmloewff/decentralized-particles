@@ -15,8 +15,8 @@ export class DecentralizedParticles {
 	private callBeforeUpdate: MaybePromiseFunction[] = [];
 	private callAfterUpdate: MaybePromiseFunction[] = [];
 
-	constructor(configOptions: ConfigOptions, particleOptions: ParticleOptions) {
-		this.config = deepMerge(this.config || defaultConfigOptions, configOptions);
+	constructor(configOptions?: ConfigOptions, particleOptions?: ParticleOptions) {
+		this.config = deepMerge(this.config || defaultConfigOptions, configOptions || {});
 		this.particleOptions = particleOptions;
 
 		this.particleCreator = () => {};
@@ -25,9 +25,11 @@ export class DecentralizedParticles {
 	createParticle(fn: ParticleCreator) {
 		this.particleCreator = fn;
 	}
+	// TODO: Never called
 	beforeUpdate(fn: MaybePromiseFunction) {
 		this.callBeforeUpdate.push(fn);
 	}
+	// TODO: Never called
 	afterUpdate(fn: MaybePromiseFunction) {
 		this.callAfterUpdate.push(fn);
 	}
@@ -35,6 +37,8 @@ export class DecentralizedParticles {
 	start() {
 		this.currentState = this.createState();
 
+		// TODO: Make the `particle.lifespan.min` random
+		// BODY: This will all the particles from blinking, appearing and disappearing around the same time
 		this.currentState.forEach(particle => {
 			this.initParticle(particle);
 			this.listenForDestroy(particle);
@@ -52,13 +56,15 @@ export class DecentralizedParticles {
 	}
 
 	private triggerNextFrame() {
-		this.config.nextFrameCaller(this.nextFrame);
+		this.config.nextFrameCaller(() => this.nextFrame());
 	}
 
 	private nextFrame() {
 		this.currentState.forEach(particle => {
 			particle.triggerUpdate();
 		});
+
+		this.triggerNextFrame();
 	}
 
 	private initParticle(particle: Particle) {
@@ -68,13 +74,14 @@ export class DecentralizedParticles {
 	private listenForDestroy(particle: Particle) {
 		particle.onDestroy(() => {
 			this.currentState.delete(particle.id);
+			console.log(`Removed 1 particle`);
 
 			this.createReplacementParticles();
 		});
 	}
 
 	private createReplacementParticles() {
-		let newAmountOfParticles = getRndInteger(0, 3);
+		let newAmountOfParticles = getRndInteger(0, 2);
 
 		for (let index = 0; index < newAmountOfParticles; index++) {
 			const particle = new Particle(this.particleOptions);
@@ -84,6 +91,9 @@ export class DecentralizedParticles {
 
 			this.currentState.set(particle.id, particle);
 		}
+
+		console.log(`Added`, newAmountOfParticles, `particles`);
+		console.log(this.currentState.size, `particles total`);
 	}
 
 	private createState(): Map<string, Particle> {

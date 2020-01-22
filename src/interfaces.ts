@@ -1,9 +1,7 @@
 import { Particle } from './particle';
-import { EaseLikeFunction, RangeValue } from './background-interfaces';
+import { RangeValue } from './background-interfaces';
 
 export interface ConfigOptions {
-	movement?: 0.003; // Movements per ms
-	easing?: EaseLikeFunction;
 	particlesCount?: RangeValue;
 	nextFrameCaller?: (fn: () => Promise<void> | void) => void;
 }

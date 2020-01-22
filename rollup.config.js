@@ -20,17 +20,17 @@ const output = [{ file: pkg.main, format: 'cjs', ...sharedOutputOptions }];
 if (prod) output.push({ file: pkg.module, format: 'es', ...sharedOutputOptions });
 
 export default {
-	input: prod ? 'src/index.ts' : 'globbed-tests.ts',
+	input: prod ? 'src/index.ts' : '@tests',
 	output,
 	plugins: [
 		globFiles({
-			file: `globbed-tests.ts`,
+			key: `@tests`,
 			include: `./tests/**/*.ts`,
 			justImport: true,
 		}),
 		resolve(),
 		commonjs(),
-		!prod && command(`node ${pkg.main} | zip-tap-reporter`, { exitOnFail: !watching }),
+		!prod && command(`node ${pkg.main}`, { exitOnFail: !watching }),
 		typescript({
 			typescript: require('typescript'),
 		}),
