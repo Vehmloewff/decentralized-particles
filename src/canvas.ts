@@ -26,8 +26,6 @@ export function createParticlesOnCanvas(element: HTMLCanvasElement, configOption
 	particles.createParticle(particle => {
 		drawParticle(particle);
 
-		console.log(width(), height());
-
 		particle.onUpdate(() => drawParticle(particle));
 	});
 
