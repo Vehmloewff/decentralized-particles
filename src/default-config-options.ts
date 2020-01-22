@@ -2,8 +2,8 @@ import { ConfigOptions } from './interfaces';
 
 const defaultConfig: ConfigOptions = {
 	particlesCount: {
-		max: 10,
-		min: 5,
+		max: 400,
+		min: 300,
 	},
 	nextFrameCaller: fn => {
 		setTimeout(fn, 200);

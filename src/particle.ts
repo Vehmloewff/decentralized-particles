@@ -17,12 +17,12 @@ const defaultParticleOptions: ParticleOptions = {
 	},
 	background: `#ddd`,
 	lifespan: {
-		max: 40,
-		min: 30,
+		max: 100,
+		min: 80,
 	},
 	speed: {
-		min: 0.0001,
-		max: 0.0003,
+		min: 0.0005,
+		max: 0.0009,
 	},
 	easing: null,
 };
