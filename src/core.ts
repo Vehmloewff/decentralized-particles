@@ -36,7 +36,7 @@ export class DecentralizedParticles {
 		this.currentState = this.createState();
 
 		// TODO: Make the `particle.lifespan.min` random
-		// BODY: This will all the particles from blinking, appearing and disappearing around the same time
+		// BODY: This will prevent the particles from blinking, appearing and disappearing around the same time
 		this.currentState.forEach(particle => {
 			this.initParticle(particle);
 			this.listenForDestroy(particle);
