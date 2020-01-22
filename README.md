@@ -6,7 +6,7 @@ Runs in both node and the browser!
 
 ## Installation
 
-## npm
+### npm
 
 The easiest way to use this package is with `npm` + your favorite javascript bundler:
 
@@ -14,7 +14,7 @@ The easiest way to use this package is with `npm` + your favorite javascript bun
 npm i decentralized-particles
 ```
 
-## Old School
+### CDN or direct download
 
 If you prefer the old-school method, you can use the CDN (`https://unpkg.com/decentralized-particles/dist/build.iife.js`),
 or you can directly [download](https://unpkg.com/decentralized-particles/dist/build.iife.js) the latest iife build.
@@ -37,7 +37,7 @@ import { createParticlesOnCanvas } from 'decentralized-particles';
 createParticlesOnCanvas(canvasElement, { nextFrameCaller: fn => requestAnimationFrame(fn) });
 ```
 
-The unique thing about this package is that the particles do not have to be drawn on canvas. They can be anything, anywhere! Check out the [DecentralizedParticles example](#decentralizedparticles), or the [official canvas implementation](src/canvas.ts) for more information.
+The unique thing about this package is that the particles do not have to be drawn on canvas. They can be anything, anywhere! Particles are completly abstract, 100% decentralized. Check out the [DecentralizedParticles example](#decentralizedparticles), or the [official canvas implementation](src/canvas.ts) for more information.
 
 ## API
 
