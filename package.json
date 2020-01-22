@@ -1,6 +1,6 @@
 {
 	"name": "decentralized-particles",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"description": "An unbelievably small and lightweight particles animation engine",
 	"main": "dist/build.cjs.js",
 	"module": "dist/build.esm.js",
