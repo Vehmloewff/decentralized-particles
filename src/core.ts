@@ -76,7 +76,6 @@ export class DecentralizedParticles {
 	private listenForDestroy(particle: Particle) {
 		particle.onDestroy(() => {
 			this.currentState.delete(particle.id);
-			console.log(`Removed 1 particle`);
 
 			this.createReplacementParticles();
 		});
@@ -102,9 +101,6 @@ export class DecentralizedParticles {
 
 			this.currentState.set(particle.id, particle);
 		}
-
-		console.log(`Added`, newAmountOfParticles, `particles`);
-		console.log(this.currentState.size, `particles total`);
 	}
 
 	private createState(): Map<string, Particle> {

@@ -8,6 +8,7 @@
 	"scripts": {
 		"build": "cross-env NODE_ENV=production rollup -c && tsc",
 		"test": "cross-env NODE_ENV=development rollup -c",
+		"dev": "rollup -c --environment=BROWSER_TEST,NODE_ENV:production",
 		"lint": "prettier --write \"./**\"",
 		"lint:test": "prettier --check \"./**\"",
 		"preversion": "npm run test && npm run lint:test && npm run build",
@@ -39,6 +40,7 @@
 		"rollup-plugin-glob-files": "^2.0.2",
 		"rollup-plugin-node-resolve": "^5.2.0",
 		"rollup-plugin-typescript": "^1.0.1",
+		"serve": "^11.3.0",
 		"tslib": "^1.10.0",
 		"typescript": "^3.7.5",
 		"zip-tap": "^1.0.5",

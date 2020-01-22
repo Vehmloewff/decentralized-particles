@@ -12,13 +12,13 @@ export interface ParticleOptions {
 
 const defaultParticleOptions: ParticleOptions = {
 	size: {
-		max: 10,
-		min: 7,
+		max: 7,
+		min: 3,
 	},
 	background: `#ddd`,
 	lifespan: {
-		max: 100,
-		min: 80,
+		max: 400,
+		min: 300,
 	},
 	speed: {
 		min: 0.0005,
