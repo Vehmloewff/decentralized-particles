@@ -1,3 +1,5 @@
+[![Active Development](https://img.shields.io/badge/Maintenance%20Level-Actively%20Developed-brightgreen.svg)](https://gist.github.com/cheerfulstoic/d107229326a01ff0f333a1d3476e068d) [![Active Development](https://img.shields.io/badge/PR's-Welcome-brightgreen.svg)](https://github.com/Vehmloewff/decentralized-particles/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Vehmloewff/decentralized-particles/CI)](https://github.com/Vehmloewff/decentralized-particles/actions)
+
 # decentralized-particles
 
 An unbelievably small and lightweight particles animation engine.
