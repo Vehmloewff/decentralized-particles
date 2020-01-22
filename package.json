@@ -43,8 +43,7 @@
 		"serve": "^11.3.0",
 		"tslib": "^1.10.0",
 		"typescript": "^3.7.5",
-		"zip-tap": "^1.0.5",
-		"zip-tap-reporter": "^2.0.0"
+		"zip-tap": "^1.0.5"
 	},
 	"homepage": "https://github.com/Vehmloewff/todo",
 	"repository": {
