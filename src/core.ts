@@ -81,7 +81,16 @@ export class DecentralizedParticles {
 	}
 
 	private createReplacementParticles() {
-		let newAmountOfParticles = getRndInteger(0, 2);
+		let newAmountOfParticles: number;
+
+		const { max, min } = this.config.particlesCount;
+		const count = this.currentState.size;
+
+		if (max - min >= 5) {
+			if (count >= max) newAmountOfParticles = 0;
+			else if (count <= min) newAmountOfParticles = 2;
+			else newAmountOfParticles = getRndInteger(0, 2);
+		} else newAmountOfParticles = 1;
 
 		for (let index = 0; index < newAmountOfParticles; index++) {
 			const particle = new Particle(this.particleOptions);
