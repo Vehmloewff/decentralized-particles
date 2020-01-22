@@ -193,7 +193,7 @@ Destroys the particle. This method is called when `age` === `lifespan` or when `
 
 `fn` is called when the particle is destroyed.
 
-#### ParticleOptions
+### ParticleOptions
 
 -   `size` _(optional)_: An object containing the `min` and `max` keys. Default is `max: 7, min: 3`.
 -   `background` _(optional)_: A string that represents the background, or an array of strings. Default is `#ddd`.
