@@ -1,7 +1,7 @@
 {
-	"name": "todo",
+	"name": "decentralized-particles",
 	"version": "0.0.0",
-	"description": "TODO: Add description",
+	"description": "An unbelievably small and lightweight particles animation engine",
 	"main": "dist/build.cjs.js",
 	"module": "dist/build.esm.js",
 	"typings": "typings/index.d.ts",
@@ -16,9 +16,11 @@
 		"postversion": "git push && git push --tags && rm -rf build/temp && npm publish"
 	},
 	"keywords": [
-		"todo",
-		"todo",
-		"todo"
+		"animation",
+		"particles",
+		"canvas",
+		"dom",
+		"node"
 	],
 	"author": {
 		"name": "Vehmloewff",
@@ -45,10 +47,10 @@
 		"typescript": "^3.7.5",
 		"zip-tap": "^1.0.5"
 	},
-	"homepage": "https://github.com/Vehmloewff/todo",
+	"homepage": "https://github.com/Vehmloewff/decentralized-particles",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Vehmloewff/todo"
+		"url": "https://github.com/Vehmloewff/decentralized-particles"
 	},
 	"dependencies": {}
 }

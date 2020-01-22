@@ -7,7 +7,6 @@ export interface ParticleOptions {
 	background?: string | string[];
 	lifespan?: RangeValue; // Units are in updates
 	speed?: RangeValue; // Movements per update
-	easing?: EaseLikeFunction;
 }
 
 const defaultParticleOptions: ParticleOptions = {
@@ -24,7 +23,6 @@ const defaultParticleOptions: ParticleOptions = {
 		min: 0.0005,
 		max: 0.0009,
 	},
-	easing: null,
 };
 
 export class Particle {
