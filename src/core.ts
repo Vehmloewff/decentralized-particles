@@ -25,11 +25,9 @@ export class DecentralizedParticles {
 	createParticle(fn: ParticleCreator) {
 		this.particleCreator = fn;
 	}
-	// TODO: Never called
 	beforeUpdate(fn: MaybePromiseFunction) {
 		this.callBeforeUpdate.push(fn);
 	}
-	// TODO: Never called
 	afterUpdate(fn: MaybePromiseFunction) {
 		this.callAfterUpdate.push(fn);
 	}
@@ -60,9 +58,13 @@ export class DecentralizedParticles {
 	}
 
 	private nextFrame() {
+		this.callBeforeUpdate.forEach(fn => fn());
+
 		this.currentState.forEach(particle => {
 			particle.triggerUpdate();
 		});
+
+		this.callAfterUpdate.forEach(fn => fn());
 
 		this.triggerNextFrame();
 	}
