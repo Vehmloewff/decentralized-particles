@@ -1,6 +1,7 @@
 import { RangeValue, AnyFunction, EaseLikeFunction } from './background-interfaces';
 import { randomString, getRndInteger, hypotenuse } from './utils';
 import deepMerge from 'deepmerge';
+import defaultParticleOptions from './default-particle-options';
 
 export interface ParticleOptions {
 	size?: RangeValue;
@@ -8,22 +9,6 @@ export interface ParticleOptions {
 	lifespan?: RangeValue; // Units are in updates
 	speed?: RangeValue; // Movements per update
 }
-
-const defaultParticleOptions: ParticleOptions = {
-	size: {
-		max: 7,
-		min: 3,
-	},
-	background: `#ddd`,
-	lifespan: {
-		max: 400,
-		min: 300,
-	},
-	speed: {
-		min: 0.0005,
-		max: 0.0009,
-	},
-};
 
 export class Particle {
 	options: ParticleOptions;

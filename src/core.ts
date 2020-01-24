@@ -3,6 +3,7 @@ import deepMerge from 'deepmerge';
 import { Particle, ParticleOptions } from './particle';
 import defaultConfigOptions from './default-config-options';
 import { getRndInteger } from './utils';
+import defaultParticleOptions from './default-particle-options';
 
 type MaybePromiseFunction = () => void | Promise<void>;
 
@@ -35,8 +36,6 @@ export class DecentralizedParticles {
 	start() {
 		this.currentState = this.createState();
 
-		// TODO: Make the `particle.lifespan.min` random
-		// BODY: This will prevent the particles from blinking, appearing and disappearing around the same time
 		this.currentState.forEach(particle => {
 			this.initParticle(particle);
 			this.listenForDestroy(particle);
@@ -109,11 +108,21 @@ export class DecentralizedParticles {
 		const particles: Map<string, Particle> = new Map();
 
 		for (let index = 0; index < particleCount; index++) {
-			const particle = new Particle(this.particleOptions);
+			const particle = new Particle(this.makeMinMoreRandom(this.particleOptions));
 
 			particles.set(particle.id, particle);
 		}
 
 		return particles;
+	}
+
+	private makeMinMoreRandom(options: ParticleOptions): ParticleOptions {
+		if (!options) options = {};
+		if (!options.lifespan) options.lifespan = {};
+
+		const oldVal = options.lifespan.min || defaultParticleOptions.lifespan.min;
+		options.lifespan.min = getRndInteger(0, oldVal);
+
+		return options;
 	}
 }
