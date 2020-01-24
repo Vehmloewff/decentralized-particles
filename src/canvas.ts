@@ -24,17 +24,29 @@ export function createParticlesOnCanvas(element: HTMLCanvasElement, configOption
 		ctx.clearRect(0, 0, width(), height());
 	});
 	particles.createParticle(particle => {
-		drawParticle(particle);
+		let img: HTMLOrSVGImageElement;
 
-		particle.onUpdate(() => drawParticle(particle));
+		if (isImage(particle.background)) {
+			img = document.createElement('img');
+			img.src = particle.background;
+		}
+
+		drawParticle(particle, img);
+
+		particle.onUpdate(() => drawParticle(particle, img));
 	});
 
-	function drawParticle(particle: Particle) {
+	function drawParticle(particle: Particle, img?: HTMLOrSVGImageElement) {
 		ctx.globalAlpha = setAlpha(particle.age, particle.lifespan);
-		ctx.beginPath();
-		ctx.arc(particle.positionX * width(), particle.positionY * height(), particle.size / 2, 0, 2 * Math.PI, false);
-		ctx.fillStyle = particle.background;
-		ctx.fill();
+
+		if (img) {
+			ctx.drawImage(img, particle.positionX * width(), particle.positionY * height(), particle.size, particle.size);
+		} else {
+			ctx.beginPath();
+			ctx.arc(particle.positionX * width(), particle.positionY * height(), particle.size / 2, 0, 2 * Math.PI, false);
+			ctx.fillStyle = particle.background;
+			ctx.fill();
+		}
 	}
 
 	function setAlpha(age: number, lifespan: number): number {
@@ -44,6 +56,14 @@ export function createParticlesOnCanvas(element: HTMLCanvasElement, configOption
 		if (cyclesLeft < 10) return cyclesLeft * 0.1;
 
 		return 1;
+	}
+
+	function isImage(background: string) {
+		const char1 = background.charAt(0);
+
+		if (char1 === `.` || char1 === `/`) return true;
+		if (/^data:image\//.test(background)) return true;
+		return false;
 	}
 
 	particles.start();
