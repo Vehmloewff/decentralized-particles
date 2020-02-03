@@ -1,5 +1,5 @@
-import { RangeValue, AnyFunction, EaseLikeFunction } from './background-interfaces';
-import { randomString, getRndInteger, hypotenuse } from './utils';
+import { RangeValue, AnyFunction } from './background-interfaces';
+import { randomString, getRndInteger, getRightTriangleSides } from './utils';
 import deepMerge from 'deepmerge';
 import defaultParticleOptions from './default-particle-options';
 
@@ -78,21 +78,12 @@ export class Particle {
 	}
 
 	private setDestination() {
-		const distance = this.lifespan * this.speed;
-		let distanceX = Math.random() * distance * 2;
-		let distanceY = distance * 2 - distanceX;
-		// let actualDistance = hypotenuse(distanceX, distanceY);
-		// const leeway = this.speed * 5;
+		const hypotenuse = this.lifespan * this.speed;
+		const angle = getRndInteger(0, 90);
+		const { adjacent, opposite } = getRightTriangleSides(hypotenuse, angle);
 
-		// while (actualDistance + leeway > distance) {
-		// 	distanceX -= this.speed;
-		// 	distanceY -= this.speed;
-		// 	actualDistance = hypotenuse(distanceX, distanceY);
-		// 	console.log(actualDistance, distance); // Infinite loop test
-		// }
-
-		this.finalPositionX = addToExisting(this.positionX, distanceX);
-		this.finalPositionY = addToExisting(this.positionY, distanceY);
+		this.finalPositionX = addToExisting(this.positionX, adjacent);
+		this.finalPositionY = addToExisting(this.positionY, opposite);
 
 		function addToExisting(pos: number, extra: number): number {
 			if (Math.random() > 0.5) return pos + extra;

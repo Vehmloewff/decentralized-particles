@@ -23,10 +23,9 @@ export function randomString(length: number, prefix: string = ``) {
 	return prefix + chars;
 }
 
-export function hypotenuse(x: number, y: number): number {
-	return Math.sqrt(x * x + y * y);
-}
-
-export function buildSidesFromHypotenuse(x: number, y: number, expected: number) {
-	return Math.sqrt(0.5 * expected * expected);
+export function getRightTriangleSides(hypotenuse: number, theta: number) {
+	return {
+		opposite: Math.sin(theta) * hypotenuse,
+		adjacent: Math.cos(theta) * hypotenuse,
+	};
 }
