@@ -8,6 +8,7 @@ export interface ParticleOptions {
 	background?: string | string[];
 	lifespan?: RangeValue; // Units are in updates
 	speed?: RangeValue; // Movements per update
+	keepAround?: boolean;
 }
 
 export class Particle {

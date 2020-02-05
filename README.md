@@ -201,6 +201,7 @@ Destroys the particle. This method is called when `age` === `lifespan` or when `
 -   `background` _(optional)_: A string that represents the background, or an array of strings. Default is `#ddd`.
 -   `lifespan` _(optional)_: The amount of updates until the particle self-destructs: An object containing the `min` and `max` keys. Default is `max: 400, min: 300`.
 -   `speed` _(optional)_: The amount to move each particle per update. Default is `max: 0.0005, min: 0.0009`.
+-   `keepAround` _(optional)_: If the particle should choose a new direction and set `age` back to `0` when it would otherwise self-destruct.
 
 ## Contributing?
 

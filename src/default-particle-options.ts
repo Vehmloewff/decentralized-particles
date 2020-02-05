@@ -14,6 +14,7 @@ const defaultParticleOptions: ParticleOptions = {
 		min: 0.0005,
 		max: 0.0009,
 	},
+	keepAround: false,
 };
 
 export default defaultParticleOptions;
