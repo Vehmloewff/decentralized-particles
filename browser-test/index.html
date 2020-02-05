@@ -27,7 +27,7 @@
 				DParticles.createParticlesOnCanvas(
 					canvas,
 					{ nextFrameCaller: fn => requestAnimationFrame(fn), particlesCount: { min: 30, max: 50 } },
-					{ background: [`#000`, `./img.png`], size: { min: 20, max: 25 } }
+					{ background: [`#000`, `./img.png`], size: { min: 20, max: 25 }, keepAround: true }
 				).currentState.size
 			);
 		</script>

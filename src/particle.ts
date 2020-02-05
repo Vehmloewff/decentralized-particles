@@ -31,6 +31,8 @@ export class Particle {
 
 	private callOnDestroy: AnyFunction[] = [];
 	private callOnUpdate: AnyFunction[] = [];
+	private addToExistingMultiplierX: number = Math.random() > 0.5 ? 1 : -1;
+	private addToExistingMultiplierY: number = Math.random() > 0.5 ? 1 : -1;
 
 	constructor(options?: ParticleOptions) {
 		this.options = deepMerge(defaultParticleOptions, options || {});
@@ -58,7 +60,21 @@ export class Particle {
 	triggerUpdate() {
 		this.age++;
 
-		if (this.age > this.lifespan) return this.destroy();
+		if (this.age > this.lifespan) {
+			if (!this.options.keepAround) return this.destroy();
+
+			// Reset Position
+			this.initialPositionX = this.positionX;
+			this.initialPositionY = this.positionY;
+
+			// Reset age
+			this.age = 0;
+			this.lifespan = getRndInteger(this.options.lifespan.min, this.options.lifespan.max);
+			this.speed = getRndInteger(this.options.speed.min, this.options.speed.max);
+
+			// Reset destination
+			this.setDestination();
+		}
 
 		this.positionX = this.getNextPosition(this.initialPositionX, this.finalPositionX);
 		this.positionY = this.getNextPosition(this.initialPositionY, this.finalPositionY);
@@ -83,12 +99,11 @@ export class Particle {
 		const angle = getRndInteger(0, 90);
 		const { adjacent, opposite } = getRightTriangleSides(hypotenuse, angle);
 
-		this.finalPositionX = addToExisting(this.positionX, adjacent);
-		this.finalPositionY = addToExisting(this.positionY, opposite);
+		this.finalPositionX = addToExisting(this.positionX, adjacent, this.addToExistingMultiplierX);
+		this.finalPositionY = addToExisting(this.positionY, opposite, this.addToExistingMultiplierY);
 
-		function addToExisting(pos: number, extra: number): number {
-			if (Math.random() > 0.5) return pos + extra;
-			else return pos - extra;
+		function addToExisting(pos: number, extra: number, multiplyer: number): number {
+			return pos + extra * multiplyer;
 		}
 	}
 
