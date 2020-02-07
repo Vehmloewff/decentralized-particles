@@ -1,5 +1,5 @@
 import { RangeValue, AnyFunction } from './background-interfaces';
-import { randomString, getRndInteger, getRightTriangleSides } from './utils';
+import { randomString, getRndInteger, getRightTriangleSides, chooseOption } from './utils';
 import deepMerge from 'deepmerge';
 import defaultParticleOptions from './default-particle-options';
 
@@ -49,10 +49,7 @@ export class Particle {
 		this.size = getRndInteger(this.options.size.min, this.options.size.max);
 		this.speed = getRndInteger(this.options.speed.min, this.options.speed.max);
 
-		if (Array.isArray(this.options.background)) {
-			if (!this.options.background.length) throw new Error(`'options.background' cannot be an empty array.`);
-			this.background = this.options.background[getRndInteger(0, this.options.background.length - 1)];
-		} else this.background = this.options.background;
+		this.background = chooseOption(this.options.background);
 
 		this.setDestination();
 	}
