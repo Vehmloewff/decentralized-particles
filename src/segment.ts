@@ -1,6 +1,8 @@
 import { Particle } from './particle';
 import { RangeValue, AnyFunction } from './background-interfaces';
 import { chooseOption, getRndInteger } from './utils';
+import deepMerge from 'deepmerge';
+import defaultSegmentOptions from './default-segment-options';
 
 export interface SegmentOptions {
 	stroke?: string[] | string;
@@ -28,7 +30,7 @@ export class Segment {
 		if (!(startParticle instanceof Particle && endParticle instanceof Particle))
 			throw new Error(errBase + `must be of type '[Particle, Particle]'`);
 
-		this.options = options;
+		this.options = deepMerge(defaultSegmentOptions, options);
 		this.startParticle = startParticle;
 		this.endParticle = endParticle;
 
