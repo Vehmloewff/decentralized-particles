@@ -1,8 +1,9 @@
 import { Particle } from './particle';
+import { RangeValue } from './background-interfaces';
 
 export interface SegmentOptions {
 	stroke?: string;
-	width?: string;
+	width?: RangeValue;
 	strength?: number; // between 0 and 1
 }
 
