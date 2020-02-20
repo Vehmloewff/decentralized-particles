@@ -1,6 +1,6 @@
 import { Particle } from './particle';
 import { RangeValue, AnyFunction } from './background-interfaces';
-import { chooseOption, getRndInteger } from './utils';
+import { chooseOption, getRndInteger, randomString } from './utils';
 import deepMerge from 'deepmerge';
 import defaultSegmentOptions from './default-segment-options';
 
@@ -15,6 +15,7 @@ export class Segment {
 	endParticle: Particle;
 	stroke: string;
 	width: number;
+	id: string;
 
 	positionX1: number;
 	positionX2: number;
@@ -35,6 +36,11 @@ export class Segment {
 
 		this.stroke = chooseOption(this.options.stroke);
 		this.width = getRndInteger(this.options.width.min, this.options.width.max);
+
+		this.id = randomString(20);
+
+		this.startParticle.onDestroy(() => this.destroy());
+		this.endParticle.onDestroy(() => this.destroy());
 	}
 
 	triggerUpdate() {

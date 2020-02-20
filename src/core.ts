@@ -15,7 +15,7 @@ export class DecentralizedParticles {
 	segmentOptions: SegmentOptions;
 
 	private currentState: Map<string, Particle>;
-	private segments: Segment[] = [];
+	private segments: Map<string, Segment>;
 	private particleCreator: ParticleCreator = () => {};
 	private segmentCreator: SegmentCreator = () => {};
 	private callBeforeUpdate: MaybePromiseFunction[] = [];
@@ -45,6 +45,7 @@ export class DecentralizedParticles {
 
 	start() {
 		this.currentState = this.createState();
+		this.segments = new Map();
 
 		this.currentState.forEach(particle => {
 			this.initParticle(particle);
@@ -66,21 +67,21 @@ export class DecentralizedParticles {
 		this.config.nextFrameCaller(() => this.nextFrame());
 	}
 
-	private intervalCounter = 40;
+	private intervalCounter = 20;
 	private nextFrame() {
 		this.callBeforeUpdate.forEach(fn => fn());
-
-		this.currentState.forEach(particle => {
-			particle.triggerUpdate();
-		});
 
 		this.segments.forEach(segment => {
 			segment.triggerUpdate();
 		});
 
+		this.currentState.forEach(particle => {
+			particle.triggerUpdate();
+		});
+
 		this.callAfterUpdate.forEach(fn => fn());
 
-		if (this.intervalCounter >= 40) {
+		if (this.intervalCounter >= 20) {
 			this.intervalCounter = 0;
 			this.calculateSegments();
 		} else {
@@ -125,23 +126,30 @@ export class DecentralizedParticles {
 	}
 
 	private calculateSegments() {
-		const newSegments: Segment[] = [];
+		const newSegments: Map<string, Segment> = new Map();
 
 		groupParticles(
 			Array.from(this.currentState).map(([_, particle]) => particle),
 			this.config.segmentStrength
 		).forEach(([startParticle, endParticle]) => {
-			const existingSegmentIndex = this.segments.findIndex(
-				segment => segment.startParticle.id === startParticle.id && segment.endParticle.id === endParticle.id
-			);
+			let existingSegment: Segment;
 
-			if (~existingSegmentIndex) {
-				newSegments.push(this.segments[existingSegmentIndex]);
-				this.segments.splice(existingSegmentIndex, 1);
+			this.segments.forEach(segment => {
+				if (segment.startParticle.id === startParticle.id && segment.endParticle.id === endParticle.id) {
+					existingSegment = segment;
+				}
+			});
+
+			if (existingSegment) {
+				newSegments.set(existingSegment.id, existingSegment);
+				this.segments.delete(existingSegment.id);
 			} else {
 				const newSegment = new Segment(startParticle, endParticle, this.segmentOptions);
+				newSegments.set(newSegment.id, newSegment);
 
-				newSegments.push(newSegment);
+				newSegment.onDestroy(() => {
+					this.segments.delete(newSegment.id);
+				});
 
 				this.segmentCreator(newSegment);
 			}

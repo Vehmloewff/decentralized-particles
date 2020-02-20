@@ -3,8 +3,8 @@ import { SegmentOptions } from './segment';
 const defaultSegmentOptions: SegmentOptions = {
 	stroke: `#444`,
 	width: {
-		min: 2,
-		max: 2.2,
+		min: 1.5,
+		max: 1.6,
 	},
 };
 

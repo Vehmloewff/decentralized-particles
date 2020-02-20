@@ -43,7 +43,7 @@ export function createParticlesOnCanvas(element: HTMLCanvasElement, configOption
 	});
 
 	function drawParticle(particle: Particle, img?: HTMLOrSVGImageElement) {
-		if (!particle.options.keepAround) ctx.globalAlpha = setAlpha(particle.age, particle.lifespan);
+		// if (!particle.options.keepAround) ctx.globalAlpha = setAlpha(particle.age, particle.lifespan);
 
 		if (img) {
 			ctx.drawImage(img, particle.positionX * width(), particle.positionY * height(), particle.size, particle.size);

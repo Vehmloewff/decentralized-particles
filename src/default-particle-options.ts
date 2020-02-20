@@ -2,8 +2,8 @@ import { ParticleOptions } from './particle';
 
 const defaultParticleOptions: ParticleOptions = {
 	size: {
-		max: 7,
-		min: 3,
+		max: 10,
+		min: 9,
 	},
 	background: `#ddd`,
 	lifespan: {
