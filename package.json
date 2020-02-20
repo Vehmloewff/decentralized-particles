@@ -6,9 +6,10 @@
 	"module": "dist/build.esm.js",
 	"typings": "typings/index.d.ts",
 	"scripts": {
-		"build": "cross-env NODE_ENV=production rollup -c && tsc",
-		"test": "cross-env NODE_ENV=development rollup -c",
-		"dev": "rollup -c --environment=BROWSER_TEST,NODE_ENV:production",
+		"build": "rollup -c --environment=NODE_ENV:production && tsc",
+		"test": "rollup -c",
+		"test:unit": "rollup -c --environment=TEST_TYPE:unit",
+		"dev": "rollup -c --environment=TEST_TYPE:browser,NODE_ENV:production",
 		"lint": "prettier --write \"./**\"",
 		"lint:test": "prettier --check \"./**\"",
 		"preversion": "npm run test && npm run lint:test && npm run build",
@@ -32,7 +33,6 @@
 	"license": "MIT",
 	"devDependencies": {
 		"acorn": "^7.1.0",
-		"cross-env": "^6.0.3",
 		"deepmerge": "^4.2.2",
 		"prettier": "^1.19.1",
 		"rollup": "^1.29.1",

@@ -1,6 +1,7 @@
 import { ConfigOptions } from './interfaces';
 import { ParticleOptions, Particle } from './particle';
 import { DecentralizedParticles } from './core';
+import { Segment } from './segment';
 
 export function createParticlesOnCanvas(element: HTMLCanvasElement, configOptions?: ConfigOptions, particleOptions?: ParticleOptions) {
 	const ctx = element.getContext(`2d`);
@@ -35,10 +36,13 @@ export function createParticlesOnCanvas(element: HTMLCanvasElement, configOption
 
 		particle.onUpdate(() => drawParticle(particle, img));
 	});
+	particles.createSegment(segment => {
+		drawSegment(segment);
+
+		segment.onUpdate(() => drawSegment(segment));
+	});
 
 	function drawParticle(particle: Particle, img?: HTMLOrSVGImageElement) {
-		if (!particle.options.keepAround) ctx.globalAlpha = setAlpha(particle.age, particle.lifespan);
-
 		if (img) {
 			ctx.drawImage(img, particle.positionX * width(), particle.positionY * height(), particle.size, particle.size);
 		} else {
@@ -49,13 +53,14 @@ export function createParticlesOnCanvas(element: HTMLCanvasElement, configOption
 		}
 	}
 
-	function setAlpha(age: number, lifespan: number): number {
-		if (age < 10) return age * 0.1;
+	function drawSegment(segment: Segment) {
+		ctx.beginPath();
 
-		const cyclesLeft = lifespan - age;
-		if (cyclesLeft < 10) return cyclesLeft * 0.1;
-
-		return 1;
+		ctx.moveTo(segment.positionX1 * width(), segment.positionY1 * height());
+		ctx.lineTo(segment.positionX2 * width(), segment.positionY2 * height());
+		ctx.strokeStyle = segment.stroke;
+		ctx.lineWidth = segment.width;
+		ctx.stroke();
 	}
 
 	function isImage(background: string) {

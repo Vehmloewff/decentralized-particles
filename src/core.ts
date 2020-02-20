@@ -1,30 +1,40 @@
-import { ConfigOptions, ParticleCreator } from './interfaces';
+import { ConfigOptions, ParticleCreator, SegmentCreator } from './interfaces';
 import deepMerge from 'deepmerge';
 import { Particle, ParticleOptions } from './particle';
 import defaultConfigOptions from './default-config-options';
 import { getRndInteger } from './utils';
 import defaultParticleOptions from './default-particle-options';
+import { SegmentOptions, Segment } from './segment';
+import groupParticles from './group-particles';
 
 type MaybePromiseFunction = () => void | Promise<void>;
 
 export class DecentralizedParticles {
 	config: ConfigOptions;
 	particleOptions: ParticleOptions;
+	segmentOptions: SegmentOptions;
 
 	private currentState: Map<string, Particle>;
-	private particleCreator: ParticleCreator;
+	private segments: Map<string, Segment>;
+	private particleCreator: ParticleCreator = () => {};
+	private segmentCreator: SegmentCreator = () => {};
 	private callBeforeUpdate: MaybePromiseFunction[] = [];
 	private callAfterUpdate: MaybePromiseFunction[] = [];
 
-	constructor(configOptions?: ConfigOptions, particleOptions?: ParticleOptions) {
+	constructor(configOptions?: ConfigOptions, particleOptions?: ParticleOptions, segmentOptions?: SegmentOptions) {
 		this.config = deepMerge(this.config || defaultConfigOptions, configOptions || {});
 		this.particleOptions = particleOptions;
+
+		if (this.config.segments) this.segmentOptions = segmentOptions;
 
 		this.particleCreator = () => {};
 	}
 
 	createParticle(fn: ParticleCreator) {
 		this.particleCreator = fn;
+	}
+	createSegment(fn: SegmentCreator) {
+		this.segmentCreator = fn;
 	}
 	beforeUpdate(fn: MaybePromiseFunction) {
 		this.callBeforeUpdate.push(fn);
@@ -35,6 +45,7 @@ export class DecentralizedParticles {
 
 	start() {
 		this.currentState = this.createState();
+		this.segments = new Map();
 
 		this.currentState.forEach(particle => {
 			this.initParticle(particle);
@@ -56,14 +67,26 @@ export class DecentralizedParticles {
 		this.config.nextFrameCaller(() => this.nextFrame());
 	}
 
+	private intervalCounter = 20;
 	private nextFrame() {
 		this.callBeforeUpdate.forEach(fn => fn());
+
+		this.segments.forEach(segment => {
+			segment.triggerUpdate();
+		});
 
 		this.currentState.forEach(particle => {
 			particle.triggerUpdate();
 		});
 
 		this.callAfterUpdate.forEach(fn => fn());
+
+		if (this.intervalCounter >= 20) {
+			this.intervalCounter = 0;
+			this.calculateSegments();
+		} else {
+			this.intervalCounter++;
+		}
 
 		this.triggerNextFrame();
 	}
@@ -100,6 +123,43 @@ export class DecentralizedParticles {
 
 			this.currentState.set(particle.id, particle);
 		}
+	}
+
+	private calculateSegments() {
+		const newSegments: Map<string, Segment> = new Map();
+
+		groupParticles(
+			Array.from(this.currentState).map(([_, particle]) => particle),
+			this.config.segmentStrength
+		).forEach(([startParticle, endParticle]) => {
+			let existingSegment: Segment;
+
+			this.segments.forEach(segment => {
+				if (segment.startParticle.id === startParticle.id && segment.endParticle.id === endParticle.id) {
+					existingSegment = segment;
+				}
+			});
+
+			if (existingSegment) {
+				newSegments.set(existingSegment.id, existingSegment);
+				this.segments.delete(existingSegment.id);
+			} else {
+				const newSegment = new Segment(startParticle, endParticle, this.segmentOptions);
+				newSegments.set(newSegment.id, newSegment);
+
+				newSegment.onDestroy(() => {
+					this.segments.delete(newSegment.id);
+				});
+
+				this.segmentCreator(newSegment);
+			}
+		});
+
+		this.segments.forEach(segment => {
+			segment.destroy();
+		});
+
+		this.segments = newSegments;
 	}
 
 	private createState(): Map<string, Particle> {

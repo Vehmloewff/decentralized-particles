@@ -1,8 +1,8 @@
 import { DecentralizedParticles } from '../src';
 import { describe } from 'zip-tap';
 
-describe(`sayHello`, it => {
-	it(`sayHello should return a gretting`, () => {
+describe(`sayHello`, async it => {
+	await it(`sayHello should return a gretting`, () => {
 		return new Promise(resolve => {
 			const particles = new DecentralizedParticles();
 			particles.start();

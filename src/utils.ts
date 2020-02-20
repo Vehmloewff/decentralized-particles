@@ -31,3 +31,10 @@ export function getRightTriangleSides(hypotenuse: number, theta: number) {
 		adjacent: Math.cos(theta) * hypotenuse,
 	};
 }
+
+export function chooseOption<T>(val: T[] | T): T {
+	if (Array.isArray(val)) {
+		if (!val.length) throw new Error(`Array cannot be empty`);
+		return val[getRndInteger(0, val.length - 1)];
+	} else return val;
+}

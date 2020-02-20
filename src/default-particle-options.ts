@@ -2,17 +2,17 @@ import { ParticleOptions } from './particle';
 
 const defaultParticleOptions: ParticleOptions = {
 	size: {
-		max: 7,
+		max: 5,
 		min: 3,
 	},
-	background: `#ddd`,
+	background: `#777`,
 	lifespan: {
-		max: 400,
-		min: 300,
+		max: 5000,
+		min: 4900,
 	},
 	speed: {
-		min: 0.0005,
-		max: 0.0009,
+		min: 0.0003,
+		max: 0.0004,
 	},
 	keepAround: false,
 };
