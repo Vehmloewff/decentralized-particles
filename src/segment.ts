@@ -7,7 +7,6 @@ import defaultSegmentOptions from './default-segment-options';
 export interface SegmentOptions {
 	stroke?: string[] | string;
 	width?: RangeValue;
-	strength?: number; // between 0 and 1
 }
 
 export class Segment {

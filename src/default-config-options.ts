@@ -9,6 +9,7 @@ const defaultConfig: ConfigOptions = {
 		setTimeout(fn, 16);
 	},
 	segments: true,
+	segmentStrength: 0.05,
 };
 
 export default defaultConfig;

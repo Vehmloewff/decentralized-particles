@@ -8,7 +8,8 @@ import globFiles from 'rollup-plugin-glob-files';
 const sourcemap = true;
 const prod = process.env.NODE_ENV === 'production';
 const watching = process.env.ROLLUP_WATCH;
-const browserTest = process.env.BROWSER_TEST;
+const browserTest = process.env.TEST_TYPE === 'browser';
+const unitTest = process.env.TEST_TYPE === 'unit';
 
 const sharedOutputOptions = {
 	sourcemap,
@@ -28,7 +29,7 @@ export default {
 		!prod &&
 			globFiles({
 				key: `@tests`,
-				include: `./tests/**/*.ts`,
+				include: unitTest ? `./tests/unit/**/*.ts` : `./tests/**/*.ts`,
 				justImport: true,
 			}),
 		resolve(),

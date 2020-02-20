@@ -9,6 +9,8 @@ export interface ParticleOptions {
 	lifespan?: RangeValue; // Units are in updates
 	speed?: RangeValue; // Movements per update
 	keepAround?: boolean;
+	startPositionX?: number;
+	startPositionY?: number;
 }
 
 export class Particle {
@@ -38,8 +40,8 @@ export class Particle {
 		this.options = deepMerge(defaultParticleOptions, options || {});
 
 		this.id = randomString(20);
-		this.positionX = Math.random();
-		this.positionY = Math.random();
+		this.positionX = options.startPositionX || Math.random();
+		this.positionY = options.startPositionY || Math.random();
 		this.initialPositionX = this.positionX;
 		this.initialPositionY = this.positionY;
 

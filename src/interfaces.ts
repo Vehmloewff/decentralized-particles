@@ -5,6 +5,7 @@ export interface ConfigOptions {
 	particlesCount?: RangeValue;
 	nextFrameCaller?: (fn: () => Promise<void> | void) => void;
 	segments?: boolean;
+	segmentStrength?: number; // between 0 and 1
 }
 
 export type UpdateHook = (updatedProperties: Particle) => void | Promise<void>;
