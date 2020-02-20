@@ -4,6 +4,7 @@ import { RangeValue } from './background-interfaces';
 export interface ConfigOptions {
 	particlesCount?: RangeValue;
 	nextFrameCaller?: (fn: () => Promise<void> | void) => void;
+	segments?: boolean;
 }
 
 export type UpdateHook = (updatedProperties: Particle) => void | Promise<void>;

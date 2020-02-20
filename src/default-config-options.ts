@@ -8,6 +8,7 @@ const defaultConfig: ConfigOptions = {
 	nextFrameCaller: fn => {
 		setTimeout(fn, 16);
 	},
+	segments: true,
 };
 
 export default defaultConfig;
