@@ -40,8 +40,8 @@ export class Particle {
 		this.options = deepMerge(defaultParticleOptions, options || {});
 
 		this.id = randomString(20);
-		this.positionX = options.startPositionX || Math.random();
-		this.positionY = options.startPositionY || Math.random();
+		this.positionX = this.options.startPositionX || Math.random();
+		this.positionY = this.options.startPositionY || Math.random();
 		this.initialPositionX = this.positionX;
 		this.initialPositionY = this.positionY;
 
