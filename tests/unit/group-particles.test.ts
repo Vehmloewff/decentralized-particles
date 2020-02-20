@@ -34,16 +34,16 @@ describe(`group-particles`, it => {
 		const groups = [
 			[particles[0], particles[1]],
 			[particles[0], particles[2]],
-			[particles[0], particles[5]],
 			[particles[1], particles[2]],
 			[particles[1], particles[5]],
-			[particles[2], particles[3]],
 			[particles[2], particles[5]],
 			[particles[3], particles[4]],
 			[particles[3], particles[5]],
 			[particles[4], particles[5]],
 		];
 
-		expect(groupParticles(particles, 1.5)).toMatchObject(groups);
+		const actual = groupParticles(particles, 0.2);
+
+		expect(actual).toMatchObject(groups);
 	});
 });
