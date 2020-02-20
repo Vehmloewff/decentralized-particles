@@ -4,7 +4,8 @@ import { Particle, ParticleOptions } from './particle';
 import defaultConfigOptions from './default-config-options';
 import { getRndInteger } from './utils';
 import defaultParticleOptions from './default-particle-options';
-import { SegmentOptions } from './segment';
+import { SegmentOptions, Segment } from './segment';
+import groupParticles from './group-particles';
 
 type MaybePromiseFunction = () => void | Promise<void>;
 
@@ -14,6 +15,7 @@ export class DecentralizedParticles {
 	segmentOptions: SegmentOptions;
 
 	private currentState: Map<string, Particle>;
+	private segments: Segment[];
 	private particleCreator: ParticleCreator;
 	private callBeforeUpdate: MaybePromiseFunction[] = [];
 	private callAfterUpdate: MaybePromiseFunction[] = [];
@@ -60,6 +62,7 @@ export class DecentralizedParticles {
 		this.config.nextFrameCaller(() => this.nextFrame());
 	}
 
+	private intervalCounter = 0;
 	private nextFrame() {
 		this.callBeforeUpdate.forEach(fn => fn());
 
@@ -68,6 +71,13 @@ export class DecentralizedParticles {
 		});
 
 		this.callAfterUpdate.forEach(fn => fn());
+
+		if (this.intervalCounter >= 40) {
+			this.intervalCounter = 0;
+			this.calculateSegments();
+		} else {
+			this.intervalCounter++;
+		}
 
 		this.triggerNextFrame();
 	}
@@ -104,6 +114,15 @@ export class DecentralizedParticles {
 
 			this.currentState.set(particle.id, particle);
 		}
+	}
+
+	private calculateSegments() {
+		groupParticles(
+			Array.from(this.currentState).map(([_, particle]) => particle),
+			this.config.segmentStrength
+		).forEach(set => {
+			this.segments.push(new Segment(set[0], set[1], this.segmentOptions));
+		});
 	}
 
 	private createState(): Map<string, Particle> {
