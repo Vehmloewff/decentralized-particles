@@ -1,5 +1,6 @@
 import { Particle } from './particle';
 import { RangeValue } from './background-interfaces';
+import { Segment } from './segment';
 
 export interface ConfigOptions {
 	particlesCount?: RangeValue;
@@ -13,3 +14,4 @@ export interface ParticleHooks {
 	update: UpdateHook;
 }
 export type ParticleCreator = (particle: Particle) => Promise<void> | void | (() => void) | Promise<() => void>;
+export type SegmentCreator = (segment: Segment) => Promise<void> | void | (() => void) | Promise<() => void>;

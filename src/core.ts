@@ -1,4 +1,4 @@
-import { ConfigOptions, ParticleCreator } from './interfaces';
+import { ConfigOptions, ParticleCreator, SegmentCreator } from './interfaces';
 import deepMerge from 'deepmerge';
 import { Particle, ParticleOptions } from './particle';
 import defaultConfigOptions from './default-config-options';
@@ -16,7 +16,8 @@ export class DecentralizedParticles {
 
 	private currentState: Map<string, Particle>;
 	private segments: Segment[] = [];
-	private particleCreator: ParticleCreator;
+	private particleCreator: ParticleCreator = () => {};
+	private segmentCreator: SegmentCreator = () => {};
 	private callBeforeUpdate: MaybePromiseFunction[] = [];
 	private callAfterUpdate: MaybePromiseFunction[] = [];
 
@@ -31,6 +32,9 @@ export class DecentralizedParticles {
 
 	createParticle(fn: ParticleCreator) {
 		this.particleCreator = fn;
+	}
+	createSegment(fn: SegmentCreator) {
+		this.segmentCreator = fn;
 	}
 	beforeUpdate(fn: MaybePromiseFunction) {
 		this.callBeforeUpdate.push(fn);
@@ -62,12 +66,16 @@ export class DecentralizedParticles {
 		this.config.nextFrameCaller(() => this.nextFrame());
 	}
 
-	private intervalCounter = 0;
+	private intervalCounter = 40;
 	private nextFrame() {
 		this.callBeforeUpdate.forEach(fn => fn());
 
 		this.currentState.forEach(particle => {
 			particle.triggerUpdate();
+		});
+
+		this.segments.forEach(segment => {
+			segment.triggerUpdate();
 		});
 
 		this.callAfterUpdate.forEach(fn => fn());
@@ -131,7 +139,11 @@ export class DecentralizedParticles {
 				newSegments.push(this.segments[existingSegmentIndex]);
 				this.segments.splice(existingSegmentIndex, 1);
 			} else {
-				newSegments.push(new Segment(startParticle, endParticle, this.segmentOptions));
+				const newSegment = new Segment(startParticle, endParticle, this.segmentOptions);
+
+				newSegments.push(newSegment);
+
+				this.segmentCreator(newSegment);
 			}
 		});
 
