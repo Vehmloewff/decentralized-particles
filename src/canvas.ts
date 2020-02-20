@@ -43,8 +43,6 @@ export function createParticlesOnCanvas(element: HTMLCanvasElement, configOption
 	});
 
 	function drawParticle(particle: Particle, img?: HTMLOrSVGImageElement) {
-		// if (!particle.options.keepAround) ctx.globalAlpha = setAlpha(particle.age, particle.lifespan);
-
 		if (img) {
 			ctx.drawImage(img, particle.positionX * width(), particle.positionY * height(), particle.size, particle.size);
 		} else {
@@ -63,15 +61,6 @@ export function createParticlesOnCanvas(element: HTMLCanvasElement, configOption
 		ctx.strokeStyle = segment.stroke;
 		ctx.lineWidth = segment.width;
 		ctx.stroke();
-	}
-
-	function setAlpha(age: number, lifespan: number): number {
-		if (age < 10) return age * 0.1;
-
-		const cyclesLeft = lifespan - age;
-		if (cyclesLeft < 10) return cyclesLeft * 0.1;
-
-		return 1;
 	}
 
 	function isImage(background: string) {
