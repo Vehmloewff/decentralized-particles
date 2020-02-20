@@ -1,10 +1,10 @@
 import { SegmentOptions } from './segment';
 
 const defaultSegmentOptions: SegmentOptions = {
-	stroke: `#eee`,
+	stroke: `#444`,
 	width: {
-		min: 3,
-		max: 5,
+		min: 2,
+		max: 2.2,
 	},
 };
 

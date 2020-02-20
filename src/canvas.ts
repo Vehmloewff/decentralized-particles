@@ -1,6 +1,7 @@
 import { ConfigOptions } from './interfaces';
 import { ParticleOptions, Particle } from './particle';
 import { DecentralizedParticles } from './core';
+import { Segment } from './segment';
 
 export function createParticlesOnCanvas(element: HTMLCanvasElement, configOptions?: ConfigOptions, particleOptions?: ParticleOptions) {
 	const ctx = element.getContext(`2d`);
@@ -35,6 +36,11 @@ export function createParticlesOnCanvas(element: HTMLCanvasElement, configOption
 
 		particle.onUpdate(() => drawParticle(particle, img));
 	});
+	particles.createSegment(segment => {
+		drawSegment(segment);
+
+		segment.onUpdate(() => drawSegment(segment));
+	});
 
 	function drawParticle(particle: Particle, img?: HTMLOrSVGImageElement) {
 		if (!particle.options.keepAround) ctx.globalAlpha = setAlpha(particle.age, particle.lifespan);
@@ -47,6 +53,16 @@ export function createParticlesOnCanvas(element: HTMLCanvasElement, configOption
 			ctx.fillStyle = particle.background;
 			ctx.fill();
 		}
+	}
+
+	function drawSegment(segment: Segment) {
+		ctx.beginPath();
+
+		ctx.moveTo(segment.positionX1 * width(), segment.positionY1 * height());
+		ctx.lineTo(segment.positionX2 * width(), segment.positionY2 * height());
+		ctx.strokeStyle = segment.stroke;
+		ctx.lineWidth = segment.width;
+		ctx.stroke();
 	}
 
 	function setAlpha(age: number, lifespan: number): number {
