@@ -4,21 +4,25 @@ import { Particle, ParticleOptions } from './particle';
 import defaultConfigOptions from './default-config-options';
 import { getRndInteger } from './utils';
 import defaultParticleOptions from './default-particle-options';
+import { SegmentOptions } from './segment';
 
 type MaybePromiseFunction = () => void | Promise<void>;
 
 export class DecentralizedParticles {
 	config: ConfigOptions;
 	particleOptions: ParticleOptions;
+	segmentOptions: SegmentOptions;
 
 	private currentState: Map<string, Particle>;
 	private particleCreator: ParticleCreator;
 	private callBeforeUpdate: MaybePromiseFunction[] = [];
 	private callAfterUpdate: MaybePromiseFunction[] = [];
 
-	constructor(configOptions?: ConfigOptions, particleOptions?: ParticleOptions) {
+	constructor(configOptions?: ConfigOptions, particleOptions?: ParticleOptions, segmentOptions?: SegmentOptions) {
 		this.config = deepMerge(this.config || defaultConfigOptions, configOptions || {});
 		this.particleOptions = particleOptions;
+
+		if (this.config.segments) this.segmentOptions = segmentOptions;
 
 		this.particleCreator = () => {};
 	}

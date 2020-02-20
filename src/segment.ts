@@ -30,7 +30,7 @@ export class Segment {
 		if (!(startParticle instanceof Particle && endParticle instanceof Particle))
 			throw new Error(errBase + `must be of type '[Particle, Particle]'`);
 
-		this.options = deepMerge(defaultSegmentOptions, options);
+		this.options = deepMerge(defaultSegmentOptions, options || {});
 		this.startParticle = startParticle;
 		this.endParticle = endParticle;
 
