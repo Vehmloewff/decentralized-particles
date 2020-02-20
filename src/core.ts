@@ -15,7 +15,7 @@ export class DecentralizedParticles {
 	segmentOptions: SegmentOptions;
 
 	private currentState: Map<string, Particle>;
-	private segments: Segment[];
+	private segments: Segment[] = [];
 	private particleCreator: ParticleCreator;
 	private callBeforeUpdate: MaybePromiseFunction[] = [];
 	private callAfterUpdate: MaybePromiseFunction[] = [];
@@ -117,12 +117,29 @@ export class DecentralizedParticles {
 	}
 
 	private calculateSegments() {
+		const newSegments: Segment[] = [];
+
 		groupParticles(
 			Array.from(this.currentState).map(([_, particle]) => particle),
 			this.config.segmentStrength
-		).forEach(set => {
-			this.segments.push(new Segment(set[0], set[1], this.segmentOptions));
+		).forEach(([startParticle, endParticle]) => {
+			const existingSegmentIndex = this.segments.findIndex(
+				segment => segment.startParticle.id === startParticle.id && segment.endParticle.id === endParticle.id
+			);
+
+			if (~existingSegmentIndex) {
+				newSegments.push(this.segments[existingSegmentIndex]);
+				this.segments.splice(existingSegmentIndex, 1);
+			} else {
+				newSegments.push(new Segment(startParticle, endParticle, this.segmentOptions));
+			}
 		});
+
+		this.segments.forEach(segment => {
+			segment.destroy();
+		});
+
+		this.segments = newSegments;
 	}
 
 	private createState(): Map<string, Particle> {
