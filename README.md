@@ -45,7 +45,7 @@ The unique thing about this package is that the particles do not have to be draw
 
 ### createParticlesOnCanvas
 
-`(element: HTMLCanvasElement, configOptions:`[`ConfigOptions`](#configoptions)`, particleOptions`[`ParticleOptions`](#particleoptions)`) =>`[`DecentralizedParticles`](#decentralizedparticles)
+`(element: HTMLCanvasElement, configOptions:`[`ConfigOptions`](#configoptions)`, particleOptions:`[`ParticleOptions`](#particleoptions)`segmentOptions:`[`SegmentOptions](#segment-options)`) =>`[`DecentralizedParticles`](#decentralizedparticles)
 
 Implements the particle animation engine on canvas.
 

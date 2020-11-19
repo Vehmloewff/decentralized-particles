@@ -1,25 +1,30 @@
 import { ConfigOptions } from './interfaces';
 import { ParticleOptions, Particle } from './particle';
 import { DecentralizedParticles } from './core';
-import { Segment } from './segment';
+import { Segment, SegmentOptions } from './segment';
 
-export function createParticlesOnCanvas(element: HTMLCanvasElement, configOptions?: ConfigOptions, particleOptions?: ParticleOptions) {
+export function createParticlesOnCanvas(
+	element: HTMLCanvasElement,
+	configOptions?: ConfigOptions,
+	particleOptions?: ParticleOptions,
+	segmentOptions?: SegmentOptions
+) {
 	const ctx = element.getContext(`2d`);
 	let width = () => element.clientWidth;
 	let height = () => element.clientHeight;
 
 	if (window && 'onresize' in window) {
-		window.onresize = setDimentions;
+		window.onresize = setDimensions;
 	}
 
-	function setDimentions() {
+	function setDimensions() {
 		element.width = width();
 		element.height = height();
 	}
 
-	setDimentions();
+	setDimensions();
 
-	const particles = new DecentralizedParticles(configOptions, particleOptions);
+	const particles = new DecentralizedParticles(configOptions, particleOptions, segmentOptions);
 
 	particles.beforeUpdate(() => {
 		ctx.clearRect(0, 0, width(), height());
