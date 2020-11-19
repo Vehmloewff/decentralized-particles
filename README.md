@@ -59,7 +59,9 @@ Example:
 
 ```js
 const parent = document.getElementById('particles');
-const particles = new DecentralizedParticles(configOptions, particleOptions);
+
+// The last two arguments are optional
+const particles = new DecentralizedParticles(configOptions, particlesOptions, segmentOptions);
 
 particles.createParticle(particle => {
 	const element = document.createElement('particle');
@@ -80,12 +82,17 @@ particles.start();
 ```
 
 `particleOptions` should be of type [`ParticleOptions`](#particleoptions), as it is passed directly into [`Particle`](#particle).
+`segmentOptions` should be of type [`SegmentOptions`](#segmentoptions), as it is passed directly into [`Segment`](#particle).
 
 `configOptions` must be of type [`ConfigOptions`](#configoptions).
 
 #### createParticle(fn)
 
 `fn` will be called every time a new particle is created. An instance of `Particle` will be passed in as the first and only argument.
+
+### createSegment(fn)
+
+If `segments` is `true` in the config options, `fn` will be called every time a new segment is created.  An instance of `Segment` will be passed in as the first and only argument.
 
 #### beforeUpdate(fn)
 
@@ -116,14 +123,8 @@ Returns a function that will play the animation when called.
     ```js
     fn => requestAnimationFrame(fn);
     ```
-
-### Particle
-
-```js
-new Particle(options);
-```
-
-`options` must be of type [`ParticleOptions`](#particleoptions).
+-	`segments` _(optional)_: A boolean indicating wether or not to link the particles together with segments.  Defaults to `true`
+-	`segmentStrength` _(optional)_:  A large number here results in particles further apart being linked with a segment.  Default is `0.11`
 
 #### options
 
@@ -195,6 +196,13 @@ Destroys the particle. This method is called when `age` === `lifespan` or when `
 
 `fn` is called when the particle is destroyed.
 
+### Particle
+
+See the [source](src/particle.ts) for details.
+### Segment
+
+See the [source](src/segment.ts) for details.
+
 ### ParticleOptions
 
 -   `size` _(optional)_: An object containing the `min` and `max` keys. Default is `max: 7, min: 3`.
@@ -202,6 +210,11 @@ Destroys the particle. This method is called when `age` === `lifespan` or when `
 -   `lifespan` _(optional)_: The amount of updates until the particle self-destructs: An object containing the `min` and `max` keys. Default is `max: 400, min: 300`.
 -   `speed` _(optional)_: The amount to move each particle per update. Default is `max: 0.0005, min: 0.0009`.
 -   `keepAround` _(optional)_: If the particle should choose a new direction and set `age` back to `0` when it would otherwise self-destruct.
+
+### Segment Options
+
+-	`stroke` _(optional)_: A string that represents the segment stroke, or an array of strings. Default is `#bbb`.
+-	`width` _(optional)_: An object containing the `min` and `max` keys. Default is `max: 0.5, min: 0.5`.
 
 ## Contributing?
 
