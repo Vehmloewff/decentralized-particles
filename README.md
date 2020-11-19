@@ -92,7 +92,7 @@ particles.start();
 
 ### createSegment(fn)
 
-If `segments` is `true` in the config options, `fn` will be called every time a new segment is created.  An instance of `Segment` will be passed in as the first and only argument.
+If `segments` is `true` in the config options, `fn` will be called every time a new segment is created. An instance of `Segment` will be passed in as the first and only argument.
 
 #### beforeUpdate(fn)
 
@@ -123,8 +123,8 @@ Returns a function that will play the animation when called.
     ```js
     fn => requestAnimationFrame(fn);
     ```
--	`segments` _(optional)_: A boolean indicating wether or not to link the particles together with segments.  Defaults to `true`
--	`segmentStrength` _(optional)_:  A large number here results in particles further apart being linked with a segment.  Default is `0.11`
+-   `segments` _(optional)_: A boolean indicating wether or not to link the particles together with segments. Defaults to `true`
+-   `segmentStrength` _(optional)_: A large number here results in particles further apart being linked with a segment. Default is `0.11`
 
 #### options
 
@@ -199,6 +199,7 @@ Destroys the particle. This method is called when `age` === `lifespan` or when `
 ### Particle
 
 See the [source](src/particle.ts) for details.
+
 ### Segment
 
 See the [source](src/segment.ts) for details.
@@ -213,8 +214,8 @@ See the [source](src/segment.ts) for details.
 
 ### Segment Options
 
--	`stroke` _(optional)_: A string that represents the segment stroke, or an array of strings. Default is `#bbb`.
--	`width` _(optional)_: An object containing the `min` and `max` keys. Default is `max: 0.5, min: 0.5`.
+-   `stroke` _(optional)_: A string that represents the segment stroke, or an array of strings. Default is `#bbb`.
+-   `width` _(optional)_: An object containing the `min` and `max` keys. Default is `max: 0.5, min: 0.5`.
 
 ## Contributing?
 
